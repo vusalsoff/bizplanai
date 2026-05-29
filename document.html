@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="az">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sənədlərim | BizPlan.ai</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+      :root {
+        --text-main: #0f172a;
+        --text-muted: #64748b;
+        --bg-gradient: linear-gradient(
+          135deg,
+          #eef2f7 0%,
+          #e0eafd 50%,
+          #f0fdf4 100%
+        );
+        --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+        --btn-gradient: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+        --card-gradient: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.85) 0%,
+          rgba(243, 244, 246, 0.7) 100%
+        );
+        --danger-gradient: linear-gradient(135deg, #ef4444 0%, #f43f5e 100%);
+        --success: #10b981;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+
+      body {
+        color: var(--text-main);
+        min-height: 100vh;
+        background: var(--bg-gradient);
+        background-size: 400% 400%;
+        animation: fluidBg 14s ease infinite;
+        position: relative;
+      }
+
+      @keyframes fluidBg {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      #spiderWebCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      /* --- DASHBOARD LAYOUT STRUCT --- */
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* --- SIDEBAR --- */
+      .sidebar {
+        background: rgba(255, 255, 255, 0.45);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-right: 1px solid rgba(255, 255, 255, 0.5);
+        padding: 35px 24px;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 4px 0 30px rgba(0, 0, 0, 0.01);
+        z-index: 99;
+      }
+
+      .sidebar .logo {
+        font-size: 1.6rem;
+        font-weight: 800;
+        letter-spacing: -1px;
+        margin-bottom: 45px;
+        padding-left: 12px;
+      }
+
+      .sidebar .logo span {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px;
+        color: var(--text-muted);
+        text-decoration: none;
+        border-radius: 14px;
+        transition: all 0.25s ease;
+        margin-bottom: 8px;
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      .nav-link i {
+        font-size: 1.1rem;
+      }
+
+      .nav-link:hover {
+        background: rgba(255, 255, 255, 0.6);
+        color: #4f46e5;
+      }
+
+      .nav-link.active {
+        background: var(--btn-gradient);
+        color: #ffffff !important;
+        box-shadow: 0 8px 20px rgba(79, 70, 229, 0.2);
+      }
+
+      /* --- MAIN CONTENT AREA --- */
+      .main-content {
+        padding: 40px;
+        max-width: 1200px;
+        width: 100%;
+        opacity: 0;
+        transform: translateY(15px);
+        animation: contentEntry 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      @keyframes contentEntry {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      header {
+        margin-bottom: 35px;
+      }
+      header h1 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        letter-spacing: -1px;
+        margin-bottom: 6px;
+      }
+      header p {
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+
+      /* --- SƏNƏDLƏR GRID LAYOUT (3D Effekt) --- */
+      .documents-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+
+      .document-card {
+        background: var(--card-gradient);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        border-radius: 22px;
+        padding: 24px;
+        box-shadow:
+          0 15px 35px rgba(148, 163, 184, 0.08),
+          inset 0 1px 2px rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        display: flex;
+        flex-direction: column;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .document-card:hover {
+        transform: translateY(-5px) scale(1.01);
+        background: #ffffff;
+        box-shadow: 0 20px 45px rgba(79, 70, 229, 0.08);
+      }
+
+      .doc-icon-area {
+        width: 50px;
+        height: 50px;
+        background: rgba(79, 70, 229, 0.08);
+        color: #4f46e5;
+        border-radius: 14px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+      }
+
+      .doc-title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--text-main);
+        margin-bottom: 6px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .doc-meta {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-weight: 600;
+        margin-bottom: 24px;
+        display: flex;
+        gap: 12px;
+      }
+
+      /* Aksion Düymələri */
+      .doc-actions {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 10px;
+        margin-top: auto;
+      }
+
+      .btn-download {
+        padding: 11px;
+        border: none;
+        border-radius: 10px;
+        background: var(--btn-gradient);
+        color: white;
+        font-weight: 700;
+        font-size: 0.85rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        transition: opacity 0.2s;
+        text-decoration: none;
+      }
+
+      .btn-delete {
+        padding: 11px;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.6);
+        color: #ef4444;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+      }
+
+      .btn-download:hover {
+        opacity: 0.9;
+      }
+      .btn-delete:hover {
+        background: #fee2e2;
+        border-color: #ef4444;
+      }
+
+      /* --- RESPONSIVE HEADER --- */
+      .mobile-header {
+        display: none;
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        padding: 16px 24px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      @media (max-width: 1100px) {
+        .documents-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 992px) {
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          position: fixed;
+          left: -280px;
+          top: 0;
+          width: 280px;
+          height: 100vh;
+          background: rgba(255, 255, 255, 0.98);
+          box-shadow: 15px 0 40px rgba(0, 0, 0, 0.05);
+        }
+        .sidebar.active {
+          left: 0;
+        }
+        .mobile-header {
+          display: flex;
+        }
+        .main-content {
+          padding: 30px 16px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .documents-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body class="dashboard-grid">
+    <canvas id="spiderWebCanvas"></canvas>
+
+    <div class="mobile-header">
+      <a
+        href="index.html"
+        style="
+          font-size: 1.3rem;
+          font-weight: 800;
+          text-decoration: none;
+          color: var(--text-main);
+        "
+        >BizPlan<span>.ai</span></a
+      >
+      <button
+        type="button"
+        style="
+          font-size: 1.3rem;
+          background: none;
+          border: none;
+          cursor: pointer;
+        "
+        id="mobileMenuToggle"
+      >
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+
+    <aside class="sidebar" id="dashboardSidebar">
+      <div class="logo">BizPlan<span>.ai</span></div>
+      <nav style="flex: 1">
+        <a href="dashboard.html" class="nav-link">📊 Ümumi Baxış</a>
+        <a href="new-order.html" class="nav-link">➕ Yeni Sifariş</a>
+        <a href="senedlerim.html" class="nav-link active">📁 Sənədlərim</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header>
+        <h1>Mənim Sənədlərim</h1>
+        <p>
+          Tamamlanmış rəsmi biznes planlarınızı və maliyyə analizlərinizi idarə
+          edin.
+        </p>
+      </header>
+
+      <div class="documents-grid">
+        <div class="document-card">
+          <div class="doc-icon-area"><i class="fa-solid fa-file-pdf"></i></div>
+          <h3 class="doc-title" title="RestoSmart AI - Tam Biznes Plan">
+            RestoSmart AI
+          </h3>
+          <div class="doc-meta">
+            <span
+              ><i class="fa-regular fa-calendar" style="margin-right: 4px"></i>
+              14.05.2026</span
+            >
+            <span
+              ><i class="fa-regular fa-file-code" style="margin-right: 4px"></i>
+              4.2 MB</span
+            >
+          </div>
+          <div class="doc-actions">
+            <a href="#" class="btn-download"
+              ><i class="fa-solid fa-arrow-down-to-line"></i> PDF Yüklə</a
+            >
+            <button type="button" class="btn-delete" onclick="deleteDoc(this)">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="document-card">
+          <div
+            class="doc-icon-area"
+            style="background: rgba(6, 182, 212, 0.08); color: #06b6d4"
+          >
+            <i class="fa-solid fa-file-excel"></i>
+          </div>
+          <h3 class="doc-title" title="EcoDrive Co. - 5 İllik Maliyyə Modeli">
+            EcoDrive Co. (Maliyyə)
+          </h3>
+          <div class="doc-meta">
+            <span
+              ><i class="fa-regular fa-calendar" style="margin-right: 4px"></i>
+              28.05.2026</span
+            >
+            <span
+              ><i class="fa-regular fa-file-code" style="margin-right: 4px"></i>
+              1.8 MB</span
+            >
+          </div>
+          <div class="doc-actions">
+            <a
+              href="#"
+              class="btn-download"
+              style="
+                background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+              "
+              ><i class="fa-solid fa-arrow-down-to-line"></i> XLSX Yüklə</a
+            >
+            <button type="button" class="btn-delete" onclick="deleteDoc(this)">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // 1. MOBİL MENU TOGGLE
+      const menuToggle = document.getElementById("mobileMenuToggle");
+      const sidebar = document.getElementById("dashboardSidebar");
+      if (menuToggle) {
+        menuToggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          sidebar.classList.toggle("active");
+        });
+        document.addEventListener("click", (e) => {
+          if (
+            !sidebar.contains(e.target) &&
+            sidebar.classList.contains("active")
+          ) {
+            sidebar.classList.remove("active");
+          }
+        });
+      }
+
+      // 2. SƏNƏD SİLMƏ FUNKSİYASI (Vizual Effektli)
+      function deleteDoc(btn) {
+        const card = btn.closest(".document-card");
+        card.style.opacity = "0";
+        card.style.transform = "scale(0.9) translateY(10px)";
+        setTimeout(() => {
+          card.remove();
+        }, 3000);
+      }
+
+      // 3. INTERAKTIV SPIDER WEB ANIMASIYASI 🕸
+      const canvas = document.getElementById("spiderWebCanvas");
+      const ctx = canvas.getContext("2d");
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+      const dots = [];
+      const numDots = 55;
+      const maxDist = 130;
+      const mouse = { x: null, y: null, radius: 160 };
+
+      window.addEventListener("resize", () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+      window.addEventListener("mousemove", (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+      window.addEventListener("mouseleave", () => {
+        mouse.x = null;
+        mouse.y = null;
+      });
+
+      class Dot {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.7;
+          this.vy = (Math.random() - 0.5) * 0.7;
+          this.radius = 2.5;
+        }
+        update() {
+          if (mouse.x !== null && mouse.y !== null) {
+            const dx = mouse.x - this.x;
+            const dy = mouse.y - this.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < mouse.radius) {
+              const force = (mouse.radius - dist) / mouse.radius;
+              this.x -= (dx / dist) * force * 1.4;
+              this.y -= (dy / dist) * force * 1.4;
+            }
+          }
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0 || this.x > width) this.vx *= -1;
+          if (this.y < 0 || this.y > height) this.vy *= -1;
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(79, 70, 229, 0.2)";
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < numDots; i++) dots.push(new Dot());
+
+      function animateWeb() {
+        ctx.clearRect(0, 0, width, height);
+        for (let i = 0; i < dots.length; i++) {
+          dots[i].update();
+          dots[i].draw();
+          for (let j = i + 1; j < dots.length; j++) {
+            const dx = dots[i].x - dots[j].x;
+            const dy = dots[i].y - dots[j].y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < maxDist) {
+              const alpha = ((maxDist - dist) / maxDist) * 0.14;
+              ctx.beginPath();
+              ctx.moveTo(dots[i].x, dots[i].y);
+              ctx.lineTo(dots[j].x, dots[j].y);
+              ctx.strokeStyle = `rgba(79, 70, 229, ${alpha})`;
+              ctx.lineWidth = 0.8;
+              ctx.stroke();
+            }
+          }
+          if (mouse.x !== null && mouse.y !== null) {
+            const dx = dots[i].x - mouse.x;
+            const dy = dots[i].y - mouse.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < mouse.radius) {
+              const alpha = ((mouse.radius - dist) / mouse.radius) * 0.18;
+              ctx.beginPath();
+              ctx.moveTo(dots[i].x, dots[i].y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.strokeStyle = `rgba(6, 182, 212, ${alpha})`;
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(animateWeb);
+      }
+      animateWeb();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1456 @@
+<!doctype html>
+<html lang="az">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BizPlan.ai | Professional Biznes Plan Platforması</title>
+    <!-- Şriftlər və İkonlar -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+      :root {
+        --text-main: #0f172a;
+        --text-muted: #64748b;
+        --bg-gradient: linear-gradient(
+          135deg,
+          #eef2f7 0%,
+          #e0eafd 50%,
+          #f0fdf4 100%
+        );
+        --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+        --btn-gradient: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+        --card-gradient: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.85) 0%,
+          rgba(243, 244, 246, 0.7) 100%
+        );
+        --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Plus Jakarta Sans", sans-serif;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        color: var(--text-main);
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+        background: var(--bg-gradient);
+        background-size: 400% 400%;
+        animation: fluidBg 14s ease infinite;
+      }
+
+      @keyframes fluidBg {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      #spiderWebCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 24px;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* --- NAVBAR --- */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        padding: 18px 0;
+        background: rgba(255, 255, 255, 0.6) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
+        transition: all 0.3s ease;
+      }
+
+      header.scrolled {
+        padding: 12px 0;
+        background: rgba(255, 255, 255, 0.85) !important;
+        border-bottom: 1px solid rgba(79, 70, 229, 0.1);
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+      }
+
+      .nav-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.6rem;
+        font-weight: 800;
+        letter-spacing: -1px;
+        color: var(--text-main);
+        text-decoration: none;
+      }
+
+      .logo span {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 28px;
+        align-items: center;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: var(--text-main);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: color 0.25s;
+      }
+
+      .nav-links a:hover {
+        color: #4f46e5;
+      }
+
+      .nav-buttons {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .btn-nav-outline {
+        padding: 10px 20px;
+        border: 1px solid rgba(79, 70, 229, 0.3);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.5);
+        color: #4f46e5;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.25s;
+      }
+
+      .btn-nav-outline:hover {
+        background: #fff;
+        border-color: #4f46e5;
+        transform: translateY(-1px);
+      }
+
+      .btn-nav-primary {
+        padding: 11px 22px;
+        border: none;
+        border-radius: 12px;
+        background: var(--btn-gradient);
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.25s;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+      }
+
+      .btn-nav-primary:hover {
+        transform: translateY(-1.5px);
+        box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
+      }
+
+      .menu-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        background: none;
+        border: none;
+      }
+
+      .menu-toggle span {
+        width: 24px;
+        height: 3px;
+        background-color: var(--text-main);
+        border-radius: 2px;
+        transition: all 0.3s ease;
+      }
+
+      /* --- HERO BÖLMƏSİ VƏ TYPEWRITER --- */
+      main {
+        padding-top: 180px;
+        padding-bottom: 60px;
+        text-align: center;
+      }
+
+      .hero-title {
+        font-size: 4.4rem;
+        font-weight: 800;
+        line-height: 1.1;
+        margin-bottom: 24px;
+        letter-spacing: -2px;
+        min-height: 150px;
+      }
+
+      /* --- "İNVESTİSİYA" INFINITE SHIMMER ANIMASIYASI 🌟 --- */
+      .shimmer-text {
+        position: relative;
+        display: inline-block;
+        background: linear-gradient(
+          to right,
+          #4f46e5 20%,
+          #06b6d4 40%,
+          #9333ea 60%,
+          #4f46e5 80%
+        );
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 3s linear infinite;
+        text-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+      }
+
+      @keyframes shine {
+        to {
+          background-position: 200% center;
+        }
+      }
+
+      .typewriter-cursor {
+        display: inline-block;
+        width: 4px;
+        background-color: #4f46e5;
+        margin-left: 4px;
+        animation: blink 0.7s infinite;
+      }
+
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      .hero-p {
+        font-size: 1.25rem;
+        color: var(--text-muted);
+        max-width: 720px;
+        margin: 0 auto 40px;
+        line-height: 1.6;
+      }
+
+      /* --- BƏRPA OLUNAN 3D KONSULTASİYA DÜYMƏSİ --- */
+      .btn-hero-main {
+        font-size: 1.05rem;
+        padding: 16px 36px;
+        border: none;
+        border-radius: 14px;
+        background: var(--btn-gradient);
+        color: #fff;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 10px 25px rgba(79, 70, 229, 0.25);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .btn-hero-main:hover {
+        transform: translateY(-2.5px);
+        box-shadow: 0 14px 30px rgba(79, 70, 229, 0.4);
+      }
+
+      .btn-hero-main:active {
+        transform: translateY(0);
+      }
+
+      /* --- 3D DASHBOARD MAKETİ --- */
+      .dashboard-mockup-wrapper {
+        margin-top: 60px;
+        perspective: 1000px;
+      }
+
+      .dashboard-mockup {
+        width: 100%;
+        max-width: 950px;
+        height: 480px;
+        margin: 0 auto;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.95) 0%,
+          rgba(248, 250, 252, 0.9) 100%
+        );
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 40px 70px rgba(148, 163, 184, 0.25);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        position: relative;
+        transform: rotateX(5deg);
+        transition: transform 0.5s ease;
+      }
+
+      .dashboard-mockup:hover {
+        transform: rotateX(0deg) translateY(-5px);
+      }
+
+      .mockup-header {
+        height: 45px;
+        background: rgba(241, 245, 249, 0.8);
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        gap: 8px;
+      }
+
+      .mockup-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+      .mockup-dot.red {
+        background: #ff5f56;
+      }
+      .mockup-dot.yellow {
+        background: #ffbd2e;
+      }
+      .mockup-dot.green {
+        background: #27c93f;
+      }
+      .mockup-title-text {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        font-weight: 600;
+        margin-left: auto;
+        margin-right: auto;
+        transform: translateX(-20px);
+      }
+
+      .mockup-body {
+        flex: 1;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        text-align: left;
+        position: relative;
+      }
+
+      .neon-glow-line {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          #4f46e5,
+          #06b6d4,
+          transparent
+        );
+      }
+
+      .mockup-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .mockup-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 16px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.01);
+      }
+
+      .mockup-card-title {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .mockup-card-val {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: var(--text-main);
+        margin-top: 4px;
+      }
+      .mockup-card-val span {
+        color: #10b981;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-left: 6px;
+      }
+
+      .mockup-charts-area {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 16px;
+      }
+
+      .chart-main-box {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .chart-sim-lines {
+        flex: 1;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        padding-top: 20px;
+        gap: 12px;
+      }
+
+      .chart-bar-item {
+        flex: 1;
+        background: linear-gradient(to top, #4f46e5, #818cf8);
+        border-radius: 6px 6px 0 0;
+        position: relative;
+      }
+
+      .chart-bar-item::after {
+        content: attr(data-month);
+        position: absolute;
+        bottom: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        font-weight: 600;
+      }
+
+      .ai-logs-box {
+        background: linear-gradient(180deg, #f8fafc 0%, #eef2f6 100%);
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 16px;
+      }
+
+      .ai-log-item {
+        font-size: 0.85rem;
+        padding: 10px;
+        background: #fff;
+        border-radius: 8px;
+        border-left: 3px solid #06b6d4;
+        margin-bottom: 8px;
+        font-weight: 500;
+      }
+
+      /* --- STATS SECTION --- */
+      .stats-section {
+        border-top: 1px solid rgba(148, 163, 184, 0.15);
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+        background: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(10px);
+        padding: 50px 0;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+        text-align: center;
+      }
+
+      .stat-card {
+        background: rgba(255, 255, 255, 0.6);
+        padding: 24px 16px;
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        transition: all 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-4px);
+        background: #fff;
+        box-shadow: 0 15px 30px rgba(79, 70, 229, 0.08);
+      }
+      .stat-num {
+        font-size: 2.6rem;
+        font-weight: 800;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 4px;
+      }
+      .stat-label {
+        color: var(--text-muted);
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      /* --- STRATEJİK BÖLMƏLƏR --- */
+      .premium-section {
+        padding: 90px 0;
+        text-align: center;
+      }
+      .section-badge {
+        display: inline-block;
+        padding: 6px 14px;
+        background: rgba(79, 70, 229, 0.08);
+        color: #4f46e5;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+        border: 1px solid rgba(79, 70, 229, 0.1);
+      }
+      .section-title {
+        font-size: 2.6rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        letter-spacing: -1px;
+      }
+      .section-desc {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        max-width: 700px;
+        margin: 0 auto 50px auto;
+        line-height: 1.6;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+      }
+      .feature-box {
+        background: var(--card-gradient);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        padding: 35px 25px;
+        border-radius: 22px;
+        text-align: left;
+        box-shadow: 0 15px 35px rgba(148, 163, 184, 0.1);
+        transition: all 0.3s ease;
+      }
+      .feature-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 45px rgba(79, 70, 229, 0.12);
+        background: #ffffff;
+      }
+
+      .feature-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--primary-gradient);
+        color: white;
+        border-radius: 14px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.3rem;
+        margin-bottom: 24px;
+        box-shadow: 0 8px 20px rgba(6, 182, 212, 0.2);
+      }
+      .feature-box h4 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+      .feature-box p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+
+      /* --- INVESTOR PORTFELI --- */
+      #investor-portfolio {
+        background: rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      .portfolio-container {
+        display: flex;
+        align-items: center;
+        gap: 60px;
+        text-align: left;
+      }
+      .portfolio-text {
+        flex: 1;
+      }
+      .portfolio-visual {
+        flex: 1;
+        background: var(--card-gradient);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.03);
+      }
+      .list-item {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 16px;
+        font-size: 1.05rem;
+        font-weight: 500;
+      }
+      .list-item i {
+        color: #10b981;
+        margin-top: 4px;
+      }
+
+      /* --- FOOTER --- */
+      footer {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(148, 163, 184, 0.15);
+        padding: 45px 0;
+        text-align: center;
+      }
+      .footer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+      .footer-links {
+        display: flex;
+        gap: 24px;
+      }
+      .footer-links a {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+      .footer-links a:hover {
+        color: #4f46e5;
+      }
+      .copyright {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+      }
+
+      /* --- FLOATING ACTIONS --- */
+      .floating-container {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        z-index: 9999;
+      }
+      .float-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 1.4rem;
+        cursor: pointer;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        transition: all 0.3s ease;
+        border: none;
+      }
+      .btn-whatsapp {
+        background-color: #25d366;
+        text-decoration: none;
+      }
+      .btn-whatsapp:hover {
+        transform: scale(1.1);
+      }
+      .btn-scroll-top {
+        background: #ffffff;
+        color: #4f46e5;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(20px);
+      }
+      .btn-scroll-top.show {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+      .btn-scroll-top:hover {
+        background: #4f46e5;
+        color: white;
+      }
+
+      /* --- PULSUZ KONSULTASİYA MODAL FORM --- */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.15);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 10000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        padding: 16px;
+      }
+      .modal-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .consultation-modal {
+        background: #ffffff;
+        border-radius: 24px;
+        padding: 35px;
+        width: 100%;
+        max-width: 440px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        position: relative;
+        transform: scale(0.9);
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .modal-overlay.active .consultation-modal {
+        transform: scale(1);
+      }
+      .modal-close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        cursor: pointer;
+      }
+      .modal-title {
+        font-size: 1.4rem;
+        font-weight: 800;
+        margin-bottom: 6px;
+        text-align: center;
+      }
+      .modal-subtitle {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        text-align: center;
+        margin-bottom: 24px;
+      }
+
+      .modal-overlay .form-control {
+        width: 100% !important;
+        padding: 13px 16px !important;
+        border-radius: 12px !important;
+        border: 1px solid #cbd5e1 !important;
+        background-color: #ffffff !important;
+        color: var(--text-main) !important;
+        font-size: 0.95rem !important;
+        outline: none !important;
+        transition: all 0.25s ease !important;
+      }
+      .modal-overlay .form-control:focus {
+        border-color: #4f46e5 !important;
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1) !important;
+      }
+
+      .success-modal-content {
+        display: none;
+        text-align: center;
+      }
+      .success-modal-content.active {
+        display: block;
+        animation: fadeIn 0.4s ease;
+      }
+      .consultation-form-content.hidden {
+        display: none;
+      }
+      .success-icon {
+        width: 64px;
+        height: 64px;
+        background: #dcfce7;
+        color: #10b981;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.8rem;
+        margin: 0 auto 20px auto;
+      }
+
+      /* --- RWD --- */
+      @media (max-width: 992px) {
+        .hero-title {
+          font-size: 3.2rem;
+        }
+        .features-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .portfolio-container {
+          flex-direction: column;
+          text-align: center;
+        }
+        .list-item {
+          justify-content: center;
+        }
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 16px;
+        }
+        .mockup-charts-area {
+          grid-template-columns: 1fr;
+        }
+        .ai-logs-box {
+          display: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: flex;
+        }
+        .nav-links {
+          position: fixed;
+          top: 70px;
+          left: -100%;
+          width: 100%;
+          height: calc(100vh - 70px);
+          background: rgba(255, 255, 255, 0.98);
+          flex-direction: column;
+          padding-top: 40px;
+          gap: 24px;
+          transition: 0.3s ease-in-out;
+        }
+        .nav-links.active {
+          left: 0;
+        }
+        .nav-buttons {
+          display: none;
+        }
+        .menu-toggle.active span:nth-child(1) {
+          transform: rotate(45deg) translate(6px, 6px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+          opacity: 0;
+        }
+        .menu-toggle.active span:nth-child(3) {
+          transform: rotate(-45deg) translate(5px, -5px);
+        }
+        .hero-title {
+          font-size: 2.3rem;
+          min-height: auto;
+        }
+        .features-grid {
+          grid-template-columns: 1fr;
+        }
+        .dashboard-mockup-wrapper {
+          display: none;
+        }
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- SPIDER WEB CANVAS ANIMASIYASI 🕸 -->
+    <canvas id="spiderWebCanvas"></canvas>
+
+    <!-- PULSUZ KONSULTASİYA MODAL PANƏLİ -->
+    <div class="modal-overlay" id="consultationOverlay">
+      <div class="consultation-modal">
+        <button type="button" class="modal-close-btn" id="modalCloseBtn">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="consultation-form-content" id="formContent">
+          <h3 class="modal-title">Pulsuz Konsultasiya</h3>
+          <p class="modal-subtitle">
+            Məlumatları doldurun, ekspertimiz sizinlə əlaqə saxlasın.
+          </p>
+          <form id="consultationForm">
+            <div class="form-group">
+              <label class="form-label">Adınız və Soyadınız</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Məs: Kənan Məmmədov"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Telefon Nömrəniz</label>
+              <input
+                type="tel"
+                class="form-control"
+                placeholder="+994 (50) 000-00-00"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Biznes Sahəniz</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Məs: FinTech, İctimai İaşə, Logistika"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              class="btn-nav-primary"
+              style="width: 100%; padding: 14px; margin-top: 10px"
+            >
+              Müraciəti Tamamla
+            </button>
+          </form>
+        </div>
+
+        <div class="success-modal-content" id="successContent">
+          <div class="success-icon">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+          <h3 class="modal-title" style="color: #10b981">Uğurlu Əməliyyat!</h3>
+          <p class="modal-subtitle" style="margin-bottom: 0">
+            Konsultasiya sorğunuz qəbul edildi. 24 saat ərzində baş ekspertimiz
+            sizinlə əlaqə saxlayacaq.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESPONSIVE NAVBAR -->
+    <header id="mainNavbar">
+      <div class="container nav-wrapper">
+        <a href="index.html" class="logo">BizPlan<span>.ai</span></a>
+
+        <button class="menu-toggle" id="menuToggle">
+          <span></span><span></span><span></span>
+        </button>
+
+        <!-- İstədiyiniz Tam Düzgün Və Yenilənmiş Sıralama -->
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#features">Xidmətlər</a></li> 
+                    <li><a href="#stats">Göstəricilər</a></li>
+          <li><a href="#investor-portfolio">İnvestor Portfeli</a></li>
+          <li><a href="#why-us">Niyə Biz?</a></li>
+         
+        </ul>
+
+        <div class="nav-buttons">
+          <button
+            class="btn-nav-outline"
+            onclick="window.location.href = 'login.html'"
+          >
+            Daxil ol
+          </button>
+          <button class="btn-nav-primary open-cons-btn">
+            Pulsuz Konsultasiya
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Bölməsi (Typewriter Və Shimmer Effekti) -->
+    <main>
+      <div class="container">
+        <!-- Canlı olaraq hərflərlə doldurulan başlıq -->
+        <h1 class="hero-title" id="typewriterTitle"></h1>
+
+        <p class="hero-p">
+          Mürəkkəb riyazi modelləri, maliyyə risklərini və rəqabət analizlərini
+          bizə buraxın. Peşəkar korporativ standartlara tam uyğun, bank və
+          investorlar tərəfindən təsdiqlənən biznes planınızı cəmi 48 saat
+          ərzində təhvil alın.
+        </p>
+
+        <div class="hero-btns">
+          <!-- BƏRPA OLUNAN LÜKS 3D DÜYMƏ -->
+          <button class="btn-hero-main open-cons-btn">
+            Pulsuz Konsultasiya Al <i class="fa-solid fa-headset"></i>
+          </button>
+        </div>
+
+        <!-- 3D IDARƏETMƏ PANELİ (DASHBOARD) MAKETİ -->
+        <div class="dashboard-mockup-wrapper" id="features">
+          <div class="dashboard-mockup">
+            <div class="mockup-header">
+              <div class="mockup-dot red"></div>
+              <div class="mockup-dot yellow"></div>
+              <div class="mockup-dot green"></div>
+              <div class="mockup-title-text">
+                <i class="fa-solid fa-lock"></i> app.bizplan.ai/dashboard
+              </div>
+            </div>
+
+            <div class="mockup-body">
+              <div class="neon-glow-line"></div>
+
+              <!-- Üst Maliyyə Kartları -->
+              <div class="mockup-grid">
+                <div class="mockup-card">
+                  <div class="mockup-card-title">Layihə Dəyəri (NPV)</div>
+                  <div class="mockup-card-val">
+                    ₼ 420,000<span>+14.2%</span>
+                  </div>
+                </div>
+                <div class="mockup-card">
+                  <div class="mockup-card-title">İnvestisiya Ehtiyacı</div>
+                  <div class="mockup-card-val">₼ 150,000</div>
+                </div>
+                <div class="mockup-card">
+                  <div class="mockup-card-title">Geri Ödəniş Müddəti</div>
+                  <div class="mockup-card-val">
+                    1.8 İl <span style="color: #3b82f6">Optimal</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Qrafik və AI jurnalları -->
+              <div class="mockup-charts-area">
+                <div class="chart-main-box">
+                  <div class="mockup-card-title">
+                    <i class="fa-solid fa-chart-area"></i> 5 Aylıq Gəlir
+                    Proqnozu (Simulyasiya)
+                  </div>
+                  <div class="chart-sim-lines">
+                    <div
+                      class="chart-bar-item"
+                      style="height: 35%"
+                      data-month="Yan"
+                    ></div>
+                    <div
+                      class="chart-bar-item"
+                      style="height: 55%"
+                      data-month="Fev"
+                    ></div>
+                    <div
+                      class="chart-bar-item"
+                      style="height: 45%"
+                      data-month="Mar"
+                    ></div>
+                    <div
+                      class="chart-bar-item"
+                      style="height: 85%"
+                      data-month="Apr"
+                    ></div>
+                    <div
+                      class="chart-bar-item"
+                      style="height: 75%"
+                      data-month="May"
+                    ></div>
+                  </div>
+                </div>
+                <div class="ai-logs-box">
+                  <div class="mockup-card-title" style="margin-bottom: 12px">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI Analiz
+                    Jurnalı
+                  </div>
+                  <div class="ai-log-item">Bazar riski: Aşağı təhlükə</div>
+                  <div class="ai-log-item">Mənfəət nöqtəsi hesablandı</div>
+                  <div class="ai-log-item">Pitch Deck hazır vəziyyətdə</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Statistika Bölməsi -->
+    <section class="stats-section" id="stats">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-num">150+</div>
+            <div class="stat-label">Hazırlanmış Plan</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">$12M+</div>
+            <div class="stat-label">Cəlb Edilən İnvestisiya</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">48<span>saat</span></div>
+            <div class="stat-label">Ortalama Təhvil</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">99%</div>
+            <div class="stat-label">Müştəri Məmnuniyyəti</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INVESTOR PORTFELI BÖLMƏSİ -->
+    <section class="premium-section" id="investor-portfolio">
+      <div class="container portfolio-container">
+        <div class="portfolio-text">
+          <span class="section-badge">Ekosistem və İnvestisiya</span>
+          <h2 class="section-title" style="text-align: left">
+            İnvestorların Dilində Danışın
+          </h2>
+          <p class="section-desc" style="text-align: left; margin: 0 0 30px 0">
+            Biznesinizin maliyyə dəyərini investorlara düzgün izah etmək kapital
+            cəlb etməyin 90%-ni təşkil edir. Bizim hazırladığımız portfel
+            strukturu sizə üstünlük qazandırır:
+          </p>
+
+          <div class="list-item">
+            <i class="fa-solid fa-circle-check"></i>
+            <span
+              >Professional Pitch Deck (İnvestor Təqdimatı) strukturunun
+              qurulması.</span
+            >
+          </div>
+          <div class="list-item">
+            <i class="fa-solid fa-circle-check"></i>
+            <span
+              >Risklərin idarə olunması və stress-test ssenarilərinin
+              hazırlanması.</span
+            >
+          </div>
+          <div class="list-item">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Kapitalın (Equity) düzgün qiymətləndirilməsi mexanizmi.</span>
+          </div>
+        </div>
+        <div class="portfolio-visual">
+          <h4 style="margin-bottom: 20px; font-weight: 700">
+            <i
+              class="fa-solid fa-vault"
+              style="color: #4f46e5; margin-right: 8px"
+            ></i>
+            İnvestisiya Hazırlıq Səviyyəsi
+          </h4>
+          <p
+            style="
+              color: var(--text-muted);
+              font-size: 0.95rem;
+              line-height: 1.6;
+              margin-bottom: 20px;
+            "
+          >
+            Platformamız tərəfindən optimallaşdırılmış layihələr beynəlxalq
+            vençur fondlarının və yerli mələk investorların daxili audit
+            yoxlamalarından qüsursuz keçir.
+          </p>
+          <button class="btn-nav-primary open-cons-btn" style="width: 100%">
+            Portfeli Aktiv Et
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- NİYƏ BİZ? (STRATEGİYA) -->
+    <section class="premium-section" id="why-us">
+      <div class="container">
+        <span class="section-badge">Maksimal Effektivlik</span>
+        <h2 class="section-title">Niyə BizPlan.ai Seçilməlidir?</h2>
+        <p class="section-desc">
+          Biz sadəcə sənəd hazırlamırıq, ideyanızın maliyyə arxitekturasını
+          qururuq və onun investorlar qarşısında ən yüksək dəyəri almasını təmin
+          edirik.
+        </p>
+
+        <div class="features-grid">
+          <div class="feature-box">
+            <div class="feature-icon"><i class="fa-solid fa-brain"></i></div>
+            <h4>Dərin Analitika</h4>
+            <p>
+              Süni intellekt dəstəkli bazar analizi alətlərimiz ilə hədəf
+              kütlənizi və rəqiblərinizin zəif nöqtələrini dəqiqliklə tapırıq.
+            </p>
+          </div>
+          <div class="feature-box">
+            <div class="feature-icon">
+              <i class="fa-solid fa-calculator"></i>
+            </div>
+            <h4>5 İllik Maliyyə Modeli</h4>
+            <p>
+              Layihənizin gəlir-çıxış balansını, mənfəətlilik nöqtəsini
+              (Break-Even) və ROI göstəricilərini rəsmi standartlarla
+              hesablayırıq.
+            </p>
+          </div>
+          <div class="feature-box">
+            <div class="feature-icon">
+              <i class="fa-solid fa-file-shield"></i>
+            </div>
+            <h4>Tam Hüquqi Uyğunluq</h4>
+            <p>
+              Dövlət dəstəyi proqramları (KOBİA), yerli və xarici bankların
+              kredit standartlarına 100% uyğun format təqdim edirik.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lüks Footer -->
+    <footer>
+      <div class="container footer-content">
+        <div class="logo" style="font-size: 1.4rem">
+          BizPlan<span>.ai</span>
+        </div>
+        <div class="footer-links">
+          <a href="#features">Xidmətlər</a>
+          <a href="#investor-portfolio">İnvestor Portfeli</a>
+          <a href="#why-us">Niyə Biz?</a>
+          <a href="#stats">Göstəricilər</a>
+        </div>
+        <p class="copyright">
+          &copy; 2026 BizPlan.ai. Bütün hüquqlar qorunur. Biznesinizi gələcəyə
+          daşıyın.
+        </p>
+      </div>
+    </footer>
+
+    <!-- Floating Actions -->
+    <div class="floating-container">
+      <a
+        href="https://wa.me/994500000000"
+        target="_blank"
+        class="float-btn btn-whatsapp"
+        title="Bizimlə Əlaqə"
+        ><i class="fa-brands fa-whatsapp"></i
+      ></a>
+      <button
+        type="button"
+        class="float-btn btn-scroll-top"
+        id="scrollTopBtn"
+        title="Yuxarı Qalx"
+      >
+        <i class="fa-solid fa-arrow-up"></i>
+      </button>
+    </div>
+
+    <script>
+      // 1. TYPEWRITER (YAZI MAKİNASI) VƏ SHIMMER ANIMASIYASI ✍️
+      const words = ["İdeyanızı ", "İnvestisiya ", "Cəlb Edən Plana Çevirin."];
+      const el = document.getElementById("typewriterTitle");
+      let wordIdx = 0,
+        charIdx = 0,
+        currentText = "";
+
+      function typeEffect() {
+        if (wordIdx < words.length) {
+          const fullWord = words[wordIdx];
+
+          if (wordIdx === 1) {
+            // "İnvestisiya" sözünə infinite parlaq klası verilir
+            currentText += `<span class="shimmer-text">${fullWord[charIdx]}</span>`;
+          } else {
+            currentText += fullWord[charIdx];
+          }
+
+          el.innerHTML =
+            currentText + '<span class="typewriter-cursor">|</span>';
+          charIdx++;
+
+          if (charIdx < fullWord.length) {
+            setTimeout(typeEffect, 90);
+          } else {
+            charIdx = 0;
+            wordIdx++;
+            setTimeout(typeEffect, 150);
+          }
+        } else {
+          el.innerHTML =
+            currentText + '<span class="typewriter-cursor">|</span>';
+        }
+      }
+      setTimeout(typeEffect, 400);
+
+      // 2. NAVBAR SCROLL MƏNTİQİ
+      const navbar = document.getElementById("mainNavbar");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+      });
+
+      const menuToggle = document.getElementById("menuToggle");
+      const navLinks = document.getElementById("navLinks");
+      menuToggle.addEventListener("click", () => {
+        menuToggle.classList.toggle("active");
+        navLinks.classList.toggle("active");
+      });
+
+      // 3. SCROLL TO TOP DÜYMƏSİ
+      const scrollTopBtn = document.getElementById("scrollTopBtn");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+          scrollTopBtn.classList.add("show");
+        } else {
+          scrollTopBtn.classList.remove("show");
+        }
+      });
+      scrollTopBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      // 4. KONSULTASİYA MODAL FORM IDARƏETMƏSİ
+      const modalOverlay = document.getElementById("consultationOverlay");
+      const modalCloseBtn = document.getElementById("modalCloseBtn");
+      const consultationForm = document.getElementById("consultationForm");
+      const formContent = document.getElementById("formContent");
+      const successContent = document.getElementById("successContent");
+
+      document.querySelectorAll(".open-cons-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          formContent.classList.remove("hidden");
+          successContent.classList.remove("active");
+          consultationForm.reset();
+          modalOverlay.classList.add("active");
+        });
+      });
+
+      modalCloseBtn.addEventListener("click", () => {
+        modalOverlay.classList.remove("active");
+      });
+      modalOverlay.addEventListener("click", (e) => {
+        if (e.target === modalOverlay) modalOverlay.classList.remove("active");
+      });
+
+      consultationForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        formContent.classList.add("hidden");
+        successContent.classList.add("active");
+        setTimeout(() => {
+          modalOverlay.classList.remove("active");
+        }, 3500);
+      });
+
+      // 5. INTERAKTIV SPIDER WEB ANIMASIYASI 🕸️
+      const canvas = document.getElementById("spiderWebCanvas");
+      const ctx = canvas.getContext("2d");
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+      const dots = [];
+      const numDots = 65;
+      const maxDist = 120;
+      const mouse = { x: null, y: null, radius: 160 };
+
+      window.addEventListener("resize", () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+      window.addEventListener("mousemove", (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+      window.addEventListener("mouseleave", () => {
+        mouse.x = null;
+        mouse.y = null;
+      });
+
+      class Dot {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.8;
+          this.vy = (Math.random() - 0.5) * 0.8;
+          this.radius = 2.5;
+        }
+        update() {
+          if (mouse.x !== null && mouse.y !== null) {
+            const dx = mouse.x - this.x;
+            const dy = mouse.y - this.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < mouse.radius) {
+              const force = (mouse.radius - dist) / mouse.radius;
+              this.x -= (dx / dist) * force * 1.5;
+              this.y -= (dy / dist) * force * 1.5;
+            }
+          }
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0 || this.x > width) this.vx *= -1;
+          if (this.y < 0 || this.y > height) this.vy *= -1;
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(79, 70, 229, 0.25)";
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < numDots; i++) dots.push(new Dot());
+
+      function animateWeb() {
+        ctx.clearRect(0, 0, width, height);
+        for (let i = 0; i < dots.length; i++) {
+          dots[i].update();
+          dots[i].draw();
+          for (let j = i + 1; j < dots.length; j++) {
+            const dx = dots[i].x - dots[j].x;
+            const dy = dots[i].y - dots[j].y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < maxDist) {
+              const alpha = ((maxDist - dist) / maxDist) * 0.15;
+              ctx.beginPath();
+              ctx.moveTo(dots[i].x, dots[i].y);
+              ctx.lineTo(dots[j].x, dots[j].y);
+              ctx.strokeStyle = `rgba(79, 70, 229, ${alpha})`;
+              ctx.lineWidth = 0.8;
+              ctx.stroke();
+            }
+          }
+          if (mouse.x !== null && mouse.y !== null) {
+            const dx = dots[i].x - mouse.x;
+            const dy = dots[i].y - mouse.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < mouse.radius) {
+              const alpha = ((mouse.radius - dist) / mouse.radius) * 0.2;
+              ctx.beginPath();
+              ctx.moveTo(dots[i].x, dots[i].y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.strokeStyle = `rgba(6, 182, 212, ${alpha})`;
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(animateWeb);
+      }
+      animateWeb();
+    </script>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>

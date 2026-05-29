@@ -1,0 +1,841 @@
+<!doctype html>
+<html lang="az">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yeni Sifariş | BizPlan.ai</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+      :root {
+        --text-main: #0f172a;
+        --text-muted: #64748b;
+        --bg-gradient: linear-gradient(
+          135deg,
+          #eef2f7 0%,
+          #e0eafd 50%,
+          #f0fdf4 100%
+        );
+        --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+        --btn-gradient: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+        --card-gradient: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.85) 0%,
+          rgba(243, 244, 246, 0.7) 100%
+        );
+        --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        --error-gradient: linear-gradient(135deg, #ef4444 0%, #f43f5e 100%);
+        --warning: #f59e0b;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+
+      body {
+        color: var(--text-main);
+        min-height: 100vh;
+        background: var(--bg-gradient);
+        background-size: 400% 400%;
+        animation: fluidBg 14s ease infinite;
+        position: relative;
+      }
+
+      @keyframes fluidBg {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      #spiderWebCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      /* --- GRID VƏ SIDEBAR STRUKTURU --- */
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+      }
+
+      .sidebar {
+        background: rgba(255, 255, 255, 0.45);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-right: 1px solid rgba(255, 255, 255, 0.5);
+        padding: 35px 24px;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 4px 0 30px rgba(0, 0, 0, 0.01);
+        z-index: 99;
+      }
+
+      .sidebar .logo {
+        font-size: 1.6rem;
+        font-weight: 800;
+        letter-spacing: -1px;
+        margin-bottom: 45px;
+        padding-left: 12px;
+      }
+
+      .sidebar .logo span {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px;
+        color: var(--text-muted);
+        text-decoration: none;
+        border-radius: 14px;
+        transition: all 0.25s ease;
+        margin-bottom: 8px;
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      .nav-link i {
+        font-size: 1.1rem;
+      }
+
+      .nav-link:hover {
+        background: rgba(255, 255, 255, 0.6);
+        color: #4f46e5;
+      }
+
+      .nav-link.active {
+        background: var(--btn-gradient);
+        color: #ffffff !important;
+        box-shadow: 0 8px 20px rgba(79, 70, 229, 0.2);
+      }
+
+      /* --- ƏSAS MƏZMUN VƏ SİFARİŞ FORMU --- */
+      .main-content {
+        padding: 40px;
+        max-width: 1050px;
+        width: 100%;
+        opacity: 0;
+        transform: scale(0.98) translateY(15px);
+        animation: contentEntry 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      }
+
+      @keyframes contentEntry {
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+
+      header {
+        margin-bottom: 35px;
+      }
+      header h1 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        letter-spacing: -1px;
+        margin-bottom: 6px;
+      }
+      header p {
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+
+      /* Form qutusu - Premium 2 Rəngli Şüşə Kart */
+      .new-order-card {
+        background: var(--card-gradient);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        border-radius: 24px;
+        padding: 35px;
+        box-shadow:
+          0 30px 60px rgba(148, 163, 184, 0.15),
+          inset 0 1px 2px rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+      }
+
+      .form-label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: var(--text-main);
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 13px 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        background: rgba(255, 255, 255, 0.7);
+        font-size: 0.95rem;
+        color: var(--text-main);
+        outline: none;
+        transition: all 0.25s ease;
+      }
+
+      .form-control:focus {
+        border-color: #4f46e5;
+        background: #fff;
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+      }
+
+      /* Seçim (Select) elementi tənzimləməsi */
+      select.form-control {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C</svg>");
+        background-repeat: no-repeat;
+        background-position: right 16px center;
+        background-size: 16px;
+        padding-right: 40px;
+      }
+
+      /* --- PREMIUM DRAG & DROP AREA --- */
+      .upload-area {
+        border: 2px dashed rgba(79, 70, 229, 0.3);
+        border-radius: 18px;
+        padding: 40px 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        background: rgba(255, 255, 255, 0.4);
+      }
+
+      .upload-area:hover,
+      .upload-area.dragover {
+        border-color: #4f46e5;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 10px 25px rgba(79, 70, 229, 0.05);
+      }
+
+      .upload-icon {
+        font-size: 2.2rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 12px;
+      }
+
+      /* Siyahıya əlavə olunan fayl elementləri */
+      .file-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #ffffff;
+        padding: 12px 18px;
+        border-radius: 12px;
+        margin-top: 10px;
+        border: 1px solid rgba(148, 163, 184, 0.15);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.01);
+        animation: fileIn 0.3s ease;
+      }
+
+      @keyframes fileIn {
+        from {
+          opacity: 0;
+          transform: translateY(5px);
+        }
+      }
+
+      .file-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+      .file-info i {
+        color: #4f46e5;
+        font-size: 1.1rem;
+      }
+
+      .btn-remove-file {
+        background: none;
+        border: none;
+        color: #ef4444;
+        cursor: pointer;
+        font-size: 1.05rem;
+        padding: 4px;
+        transition: transform 0.2s;
+      }
+      .btn-remove-file:hover {
+        transform: scale(1.15);
+      }
+
+      /* Böyük Göndər Düyməsi */
+      .btn-submit-order {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 14px;
+        background: var(--btn-gradient);
+        color: #fff;
+        font-size: 1.05rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        box-shadow: 0 10px 25px rgba(79, 70, 229, 0.2);
+        margin-top: 25px;
+      }
+
+      .btn-submit-order:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px rgba(79, 70, 229, 0.35);
+      }
+
+      .btn-submit-order:active {
+        transform: translateY(0);
+      }
+
+      /* --- MƏRKƏZİ ALERT MODAL WINDOW --- */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.15);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 10000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        padding: 16px;
+      }
+      .modal-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .custom-alert-modal {
+        background: #ffffff;
+        border-radius: 24px;
+        padding: 35px;
+        width: 100%;
+        max-width: 380px;
+        text-align: center;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        transform: scale(0.85);
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .modal-overlay.active .custom-alert-modal {
+        transform: scale(1);
+      }
+
+      .alert-icon {
+        width: 56px;
+        height: 56px;
+        background: #fee2e2;
+        color: #ef4444;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5rem;
+        margin: 0 auto 16px auto;
+      }
+      .alert-icon.success {
+        background: #dcfce7;
+        color: #10b981;
+      }
+
+      .alert-title {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--text-main);
+        margin-bottom: 8px;
+      }
+      .alert-desc {
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        margin-bottom: 24px;
+        line-height: 1.5;
+      }
+
+      .btn-alert-close {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        background: var(--error-gradient);
+        color: white;
+      }
+      .btn-alert-close.success-btn {
+        background: var(--success-gradient);
+      }
+
+      /* --- RESPONSIVE FIX (RWD) --- */
+      .mobile-header {
+        display: none;
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        padding: 16px 24px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      @media (max-width: 992px) {
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          position: fixed;
+          left: -280px;
+          top: 0;
+          width: 280px;
+          height: 100vh;
+          background: rgba(255, 255, 255, 0.98);
+          box-shadow: 15px 0 40px rgba(0, 0, 0, 0.05);
+        }
+        .sidebar.active {
+          left: 0;
+        }
+        .mobile-header {
+          display: flex;
+        }
+        .main-content {
+          padding: 30px 16px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .form-grid {
+          grid-template-columns: 1fr;
+          gap: 0;
+        }
+        .new-order-card {
+          padding: 24px 16px;
+          border-radius: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body class="dashboard-grid">
+    <canvas id="spiderWebCanvas"></canvas>
+
+    <div class="modal-overlay" id="alertModalOverlay">
+      <div class="custom-alert-modal">
+        <div class="alert-icon" id="alertIcon">
+          <i class="fa-solid fa-circle-exclamation"></i>
+        </div>
+        <div class="alert-title" id="alertTitle">Xəta!</div>
+        <div class="alert-desc" id="alertDesc">
+          Zəhmət olmasa, xanaları doldurun.
+        </div>
+        <button type="button" class="btn-alert-close" id="alertCloseBtn">
+          Anladım
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-header">
+      <a
+        href="index.html"
+        style="
+          font-size: 1.3rem;
+          font-weight: 800;
+          text-decoration: none;
+          color: var(--text-main);
+        "
+        >BizPlan<span>.ai</span></a
+      >
+      <button
+        type="button"
+        style="
+          font-size: 1.3rem;
+          background: none;
+          border: none;
+          cursor: pointer;
+        "
+        id="mobileMenuToggle"
+      >
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+
+    <aside class="sidebar" id="dashboardSidebar">
+      <div class="logo">BizPlan<span>.ai</span></div>
+      <nav style="flex: 1">
+        <a href="dashboard.html" class="nav-link">📊 Ümumi Baxış</a>
+        <a href="new-order.html" class="nav-link active">➕ Yeni Sifariş</a>
+        <a href="./document.html" class="nav-link">📁 Sənədlərim</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header>
+        <h1>Yeni Sifariş Yarat</h1>
+        <p>
+          İdeyanızı və tələblərinizi detallı şəkildə qeyd edin, dərhal işə
+          başlayaq.
+        </p>
+      </header>
+
+      <form id="newOrderForm" class="new-order-card" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Biznesin Adı</label>
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="bizName"
+                name="businessName"
+                class="form-control"
+                placeholder="Məs: EcoTech Solutions"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Sektor</label>
+            <div class="input-wrapper">
+              <select id="bizSector" name="sector" class="form-control">
+                <option value="">Sektor seçin...</option>
+                <option value="Aqrar / Kənd Təsərrüfatı">
+                  Aqrar / Kənd Təsərrüfatı
+                </option>
+                <option value="Texnologiya / SaaS">Texnologiya / SaaS</option>
+                <option value="Ekoloji Sistemlər / Yaşıl Enerji">
+                  Ekoloji Sistemlər / Yaşıl Enerji
+                </option>
+                <option value="Xidmət / Retail">Xidmət / Retail</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label"
+            >Biznes İdeyası (Məhsul, Bazar, Rəqiblər və Gəlir Modeli)</label
+          >
+          <div class="input-wrapper">
+            <textarea
+              id="bizDescription"
+              name="description"
+              class="form-control"
+              placeholder="İdeyanızı ətraflı təsvir edin, hədəflərinizi yazın..."
+              style="min-height: 180px; resize: vertical"
+            ></textarea>
+          </div>
+          <div
+            style="display: flex; justify-content: flex-end; margin-top: 8px"
+          >
+            <span
+              id="wordCounter"
+              style="
+                font-size: 0.85rem;
+                color: var(--text-muted);
+                font-weight: 600;
+              "
+              >0 / 3000 simvol</span
+            >
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 15px">
+          <label class="form-label"
+            >Əlavə Materiallar (Pitch Deck, Maliyyə, Logo)</label
+          >
+          <div id="dropZone" class="upload-area">
+            <div class="upload-icon">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+            </div>
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px">
+              Faylları bura sürükləyin və ya klikləyin
+            </h3>
+            <p
+              style="
+                color: var(--text-muted);
+                font-size: 0.85rem;
+                font-weight: 500;
+              "
+            >
+              Maks: 20 fayl, Hər biri maks 25MB (PDF, DOCX, XLSX)
+            </p>
+            <input type="file" id="fileInput" multiple style="display: none" />
+          </div>
+          <div id="fileList"></div>
+        </div>
+
+        <button type="submit" id="submitOrderBtn" class="btn-submit-order">
+          Təsdiqlə və Göndər
+        </button>
+      </form>
+    </main>
+
+    <script>
+      // 1. MOBİL MENU TOGGLE
+      const menuToggle = document.getElementById("mobileMenuToggle");
+      const sidebar = document.getElementById("dashboardSidebar");
+      if (menuToggle) {
+        menuToggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          sidebar.classList.toggle("active");
+        });
+        document.addEventListener("click", (e) => {
+          if (
+            !sidebar.contains(e.target) &&
+            sidebar.classList.contains("active")
+          ) {
+            sidebar.classList.remove("active");
+          }
+        });
+      }
+
+      // 2. TEXTAREA SIMVOL SAYĞACI
+      const textarea = document.getElementById("bizDescription");
+      const counter = document.getElementById("wordCounter");
+      textarea.addEventListener("input", () => {
+        const len = textarea.value.length;
+        counter.innerText = `${len} / 3000 simvol`;
+        if (len > 3000) counter.style.color = "#ef4444";
+        else counter.style.color = "var(--text-muted)";
+      });
+
+      // 3. DRAG & DROP VE KLIKLƏ FAyl SEÇMƏ PROSESİ
+      const dropZone = document.getElementById("dropZone");
+      const fileInput = document.getElementById("fileInput");
+      const fileList = document.getElementById("fileList");
+
+      dropZone.addEventListener("click", () => fileInput.click());
+
+      dropZone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropZone.classList.add("dragover");
+      });
+      dropZone.addEventListener("dragleave", () =>
+        dropZone.classList.remove("dragover"),
+      );
+      dropZone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dropZone.classList.remove("dragover");
+        handleFiles(e.dataTransfer.files);
+      });
+
+      fileInput.addEventListener("change", () => handleFiles(fileInput.files));
+
+      function handleFiles(files) {
+        for (let file of files) {
+          const item = document.createElement("div");
+          item.className = "file-item";
+          item.innerHTML = `
+            <div class="file-info"><i class="fa-solid fa-file-lines"></i> <span>${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)</span></div>
+            <button type="button" class="btn-remove-file"><i class="fa-solid fa-trash-can"></i></button>
+          `;
+          item
+            .querySelector(".btn-remove-file")
+            .addEventListener("click", () => item.remove());
+          fileList.appendChild(item);
+        }
+      }
+
+      // 4. MƏRKƏZİ ALERT VALİDASİYA SİSTEMİ (Tam İşlək)
+      const form = document.getElementById("newOrderForm");
+      const bizName = document.getElementById("bizName");
+      const bizSector = document.getElementById("bizSector");
+      const modalOverlay = document.getElementById("alertModalOverlay");
+      const alertIcon = document.getElementById("alertIcon");
+      const alertTitle = document.getElementById("alertTitle");
+      const alertDesc = document.getElementById("alertDesc");
+      const alertCloseBtn = document.getElementById("alertCloseBtn");
+
+      let orderSuccess = false;
+
+      function triggerAlert(type, title, desc) {
+        if (type === "success") {
+          alertIcon.className = "alert-icon success";
+          alertIcon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+          alertCloseBtn.className = "btn-alert-close success-btn";
+          alertCloseBtn.innerText = "Panelə Qayıt";
+          orderSuccess = true;
+        } else {
+          alertIcon.className = "alert-icon";
+          alertIcon.innerHTML =
+            '<i class="fa-solid fa-circle-exclamation"></i>';
+          alertCloseBtn.className = "btn-alert-close";
+          alertCloseBtn.innerText = "Anladım";
+          orderSuccess = false;
+        }
+        alertTitle.innerText = title;
+        alertDesc.innerText = desc;
+        modalOverlay.classList.add("active");
+      }
+
+      alertCloseBtn.addEventListener("click", () => {
+        modalOverlay.classList.remove("active");
+        if (orderSuccess) window.location.replace("dashboard.html");
+      });
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (
+          !bizName.value.trim() ||
+          !bizSector.value ||
+          !textarea.value.trim()
+        ) {
+          triggerAlert(
+            "error",
+            "Diqqət!",
+            "Zəhmət olmasa, biznes adı, sektor və təsvir xanalarını tam doldurun.",
+          );
+          return;
+        }
+        triggerAlert(
+          "success",
+          "Sifariş Yaradıldı!",
+          "Biznes plan sifarişiniz uğurla qəbul edildi. Analiz prosesi başladıldı.",
+        );
+      });
+
+      // 5. INTERAKTIV SPIDER WEB ANIMASIYASI 🕸
+      const canvas = document.getElementById("spiderWebCanvas");
+      const ctx = canvas.getContext("2d");
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+      const dots = [];
+      const numDots = 55;
+      const maxDist = 130;
+      const mouse = { x: null, y: null, radius: 160 };
+
+      window.addEventListener("resize", () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+      window.addEventListener("mousemove", (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+      window.addEventListener("mouseleave", () => {
+        mouse.x = null;
+        mouse.y = null;
+      });
+
+      class Dot {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.7;
+          this.vy = (Math.random() - 0.5) * 0.7;
+          this.radius = 2.5;
+        }
+        update() {
+          if (mouse.x !== null && mouse.y !== null) {
+            const dx = mouse.x - this.x;
+            const dy = mouse.y - this.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < mouse.radius) {
+              const force = (mouse.radius - dist) / mouse.radius;
+              this.x -= (dx / dist) * force * 1.4;
+              this.y -= (dy / dist) * force * 1.4;
+            }
+          }
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0 || this.x > width) this.vx *= -1;
+          if (this.y < 0 || this.y > height) this.vy *= -1;
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(79, 70, 229, 0.2)";
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < numDots; i++) dots.push(new Dot());
+
+      function animateWeb() {
+        ctx.clearRect(0, 0, width, height);
+        for (let i = 0; i < dots.length; i++) {
+          dots[i].update();
+          dots[i].draw();
+          for (let j = i + 1; j < dots.length; j++) {
+            const dx = dots[i].x - dots[j].x;
+            const dy = dots[i].y - dots[j].y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < maxDist) {
+              const alpha = ((maxDist - dist) / maxDist) * 0.14;
+              ctx.beginPath();
+              ctx.moveTo(dots[i].x, dots[i].y);
+              ctx.lineTo(dots[j].x, dots[j].y);
+              ctx.strokeStyle = `rgba(79, 70, 229, ${alpha})`;
+              ctx.lineWidth = 0.8;
+              ctx.stroke();
+            }
+          }
+          if (mouse.x !== null && mouse.y !== null) {
+            const dx = dots[i].x - mouse.x;
+            const dy = dots[i].y - mouse.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < mouse.radius) {
+              const alpha = ((mouse.radius - dist) / mouse.radius) * 0.18;
+              ctx.beginPath();
+              ctx.moveTo(dots[i].x, dots[i].y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.strokeStyle = `rgba(6, 182, 212, ${alpha})`;
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(animateWeb);
+      }
+      animateWeb();
+    </script>
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
