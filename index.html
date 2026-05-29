@@ -3,8 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BizPlan.ai | Professional Biznes Plan Platforması</title>
-    <!-- Şriftlər və İkonlar -->
+    <title>BiznesPlan.ai | Professional Biznes Plan Platforması</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
@@ -203,7 +202,17 @@
         transition: all 0.3s ease;
       }
 
-      /* --- HERO BÖLMƏSİ VƏ TYPEWRITER --- */
+      .mobile-action-group {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid rgba(148, 163, 184, 0.15);
+      }
+
+      /* --- HERO BÖLMƏSİ --- */
       main {
         padding-top: 180px;
         padding-bottom: 60px;
@@ -211,15 +220,15 @@
       }
 
       .hero-title {
-        font-size: 4.4rem;
+        font-size: calc(2.2rem + 2vw);
         font-weight: 800;
-        line-height: 1.1;
+        line-height: 1.15;
         margin-bottom: 24px;
         letter-spacing: -2px;
-        min-height: 150px;
+        word-wrap: break-word;
+        min-height: 140px;
       }
 
-      /* --- "İNVESTİSİYA" INFINITE SHIMMER ANIMASIYASI 🌟 --- */
       .shimmer-text {
         position: relative;
         display: inline-block;
@@ -263,9 +272,24 @@
         max-width: 720px;
         margin: 0 auto 40px;
         line-height: 1.6;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: textReveal 1s cubic-bezier(0.25, 1, 0.5, 1) 2.4s forwards;
       }
 
-      /* --- BƏRPA OLUNAN 3D KONSULTASİYA DÜYMƏSİ --- */
+      @keyframes textReveal {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .hero-btns {
+        opacity: 0;
+        transform: translateY(15px);
+        animation: textReveal 1s cubic-bezier(0.25, 1, 0.5, 1) 2.6s forwards;
+      }
+
       .btn-hero-main {
         font-size: 1.05rem;
         padding: 16px 36px;
@@ -364,7 +388,6 @@
         text-align: left;
         position: relative;
       }
-
       .neon-glow-line {
         position: absolute;
         top: 0;
@@ -379,7 +402,6 @@
           transparent
         );
       }
-
       .mockup-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -393,7 +415,6 @@
         padding: 16px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.01);
       }
-
       .mockup-card-title {
         font-size: 0.8rem;
         color: var(--text-muted);
@@ -415,12 +436,10 @@
       }
 
       .mockup-charts-area {
-        flex: 1;
         display: grid;
         grid-template-columns: 2fr 1fr;
         gap: 16px;
       }
-
       .chart-main-box {
         background: #ffffff;
         border: 1px solid #e2e8f0;
@@ -429,7 +448,6 @@
         display: flex;
         flex-direction: column;
       }
-
       .chart-sim-lines {
         flex: 1;
         display: flex;
@@ -445,7 +463,6 @@
         border-radius: 6px 6px 0 0;
         position: relative;
       }
-
       .chart-bar-item::after {
         content: attr(data-month);
         position: absolute;
@@ -463,7 +480,6 @@
         border-radius: 16px;
         padding: 16px;
       }
-
       .ai-log-item {
         font-size: 0.85rem;
         padding: 10px;
@@ -498,11 +514,6 @@
         transition: all 0.3s ease;
       }
 
-      .stat-card:hover {
-        transform: translateY(-4px);
-        background: #fff;
-        box-shadow: 0 15px 30px rgba(79, 70, 229, 0.08);
-      }
       .stat-num {
         font-size: 2.6rem;
         font-weight: 800;
@@ -563,8 +574,8 @@
       }
       .feature-box:hover {
         transform: translateY(-5px);
-        box-shadow: 0 20px 45px rgba(79, 70, 229, 0.12);
         background: #ffffff;
+        box-shadow: 0 20px 45px rgba(79, 70, 229, 0.12);
       }
 
       .feature-icon {
@@ -626,81 +637,124 @@
         margin-top: 4px;
       }
 
-      /* --- FOOTER --- */
-      footer {
-        background: rgba(255, 255, 255, 0.6);
-        backdrop-filter: blur(10px);
-        border-top: 1px solid rgba(148, 163, 184, 0.15);
-        padding: 45px 0;
+      /* --- 📞 ELAQƏ VƏ ADAU MAP GOOGLE PIN BÖLMƏSİ --- */
+      .contact-section {
+        padding: 90px 0;
         text-align: center;
       }
-      .footer-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-      }
-      .footer-links {
-        display: flex;
-        gap: 24px;
-      }
-      .footer-links a {
-        color: var(--text-muted);
-        text-decoration: none;
-        font-size: 0.9rem;
-        font-weight: 600;
-      }
-      .footer-links a:hover {
-        color: #4f46e5;
-      }
-      .copyright {
-        color: var(--text-muted);
-        font-size: 0.85rem;
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 40px;
+        text-align: left;
+        margin-top: 30px;
       }
 
-      /* --- FLOATING ACTIONS --- */
+      .contact-info-card {
+        background: var(--card-gradient);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        padding: 40px;
+        border-radius: 24px;
+        box-shadow: 0 20px 40px rgba(148, 163, 184, 0.08);
+      }
+      .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+      .contact-icon {
+        width: 44px;
+        height: 44px;
+        background: rgba(79, 70, 229, 0.08);
+        color: #4f46e5;
+        border-radius: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.2rem;
+      }
+      .contact-text h5 {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      .contact-text p {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--text-main);
+        margin-top: 2px;
+      }
+
+      .map-wrapper {
+        border-radius: 24px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 20px 40px rgba(148, 163, 184, 0.08);
+        height: 100%;
+        min-height: 350px;
+      }
+
+   
+
+      /* --- FLOATING ACTIONS (Z-INDEX & POINTER EVENTS FIXED) --- */
       .floating-container {
         position: fixed;
         bottom: 30px;
         right: 30px;
         display: flex;
         flex-direction: column;
-        gap: 12px;
-        z-index: 9999;
+        gap: 14px;
+        z-index: 99999 !important; /* En üst katmana taşındı */
+        pointer-events: none; /* Container'ın kendisi tıklamayı engellemez */
       }
+
       .float-btn {
-        width: 50px;
-        height: 50px;
+        width: 54px;
+        height: 54px;
         border-radius: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
-        color: white;
-        font-size: 1.4rem;
-        cursor: pointer;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-        transition: all 0.3s ease;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
         border: none;
+        outline: none;
+        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        pointer-events: auto !important; /* Butonların kendisi kesinlikle tıklanabilir */
+        cursor: pointer;
       }
+
       .btn-whatsapp {
         background-color: #25d366;
+        color: white;
         text-decoration: none;
+        transform: translateY(68px);
       }
       .btn-whatsapp:hover {
-        transform: scale(1.1);
+        transform: translateY(68px) scale(1.08);
       }
+
+      .floating-container.scrolled-active .btn-whatsapp {
+        transform: translateY(0);
+      }
+      .floating-container.scrolled-active .btn-whatsapp:hover {
+        transform: scale(1.08);
+      }
+
       .btn-scroll-top {
         background: #ffffff;
         color: #4f46e5;
-        border: 1px solid rgba(148, 163, 184, 0.2);
+        border: 1px solid rgba(148, 163, 184, 0.25);
         opacity: 0;
         pointer-events: none;
-        transform: translateY(20px);
+        transform: translateY(40px) scale(0.7);
+        font-size: 1.3rem;
       }
       .btn-scroll-top.show {
         opacity: 1;
-        pointer-events: auto;
-        transform: translateY(0);
+        pointer-events: auto !important;
+        transform: translateY(0) scale(1);
       }
       .btn-scroll-top:hover {
         background: #4f46e5;
@@ -810,7 +864,7 @@
         margin: 0 auto 20px auto;
       }
 
-      /* --- RWD --- */
+      /* --- RWD MEDIA QUERIES --- */
       @media (max-width: 992px) {
         .hero-title {
           font-size: 3.2rem;
@@ -835,23 +889,62 @@
         .ai-logs-box {
           display: none;
         }
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
       }
 
       @media (max-width: 768px) {
+        /* Mobil Cihazlar İçin Buton Alanı Optimizasyonu */
+        .floating-container {
+          bottom: 20px !important;
+          right: 20px !important;
+          gap: 12px !important;
+        }
+
+        .float-btn {
+          width: 50px !important;
+          height: 50px !important;
+          font-size: 1.25rem !important;
+        }
+
+        .btn-whatsapp {
+          transform: translateY(62px) !important;
+        }
+        .btn-whatsapp:hover {
+          transform: translateY(62px) scale(1.05) !important;
+        }
+
+        .floating-container.scrolled-active .btn-whatsapp {
+          transform: translateY(0) !important;
+        }
+
+        footer {
+          position: relative;
+          z-index: 10; /* Butonların altında kalması garanti altına alındı */
+          padding-bottom: 90px !important;
+        }
+
         .menu-toggle {
           display: flex;
+          z-index: 1002;
         }
+
         .nav-links {
           position: fixed;
-          top: 70px;
+          top: 0;
           left: -100%;
-          width: 100%;
-          height: calc(100vh - 70px);
+          width: 290px;
+          height: 100vh;
           background: rgba(255, 255, 255, 0.98);
+          backdrop-filter: blur(25px);
           flex-direction: column;
-          padding-top: 40px;
-          gap: 24px;
-          transition: 0.3s ease-in-out;
+          justify-content: flex-start;
+          padding: 100px 24px 40px;
+          gap: 18px;
+          transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 15px 0 40px rgba(15, 23, 42, 0.08);
+          z-index: 1001;
         }
         .nav-links.active {
           left: 0;
@@ -859,6 +952,29 @@
         .nav-buttons {
           display: none;
         }
+
+        .nav-links::after {
+          content: "";
+          display: block;
+          width: 100%;
+          height: 1px;
+          background: #e2e8f0;
+          margin: 10px 0;
+        }
+
+        .mobile-action-group {
+          display: flex;
+          width: 100%;
+        }
+        .mobile-action-group .btn-nav-outline,
+        .mobile-action-group .btn-nav-primary {
+          width: 100%;
+          text-align: center;
+          justify-content: center;
+          display: flex;
+          margin-bottom: 4px;
+        }
+
         .menu-toggle.active span:nth-child(1) {
           transform: rotate(45deg) translate(6px, 6px);
         }
@@ -868,9 +984,9 @@
         .menu-toggle.active span:nth-child(3) {
           transform: rotate(-45deg) translate(5px, -5px);
         }
-        .hero-title {
-          font-size: 2.3rem;
-          min-height: auto;
+
+        .hero-p {
+          font-size: 1.1rem;
         }
         .features-grid {
           grid-template-columns: 1fr;
@@ -882,13 +998,25 @@
           grid-template-columns: 1fr;
         }
       }
+
+/* Footer Hover və Responsivlik */
+.footer-link { color: #64748b !important; text-decoration: none; transition: 0.3s !important; }
+.footer-link:hover { color: #4f46e5 !important; }
+
+@media (max-width: 992px) {
+  .footer-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 40px !important; }
+}
+@media (max-width: 600px) {
+  .footer-grid { grid-template-columns: 1fr !important; text-align: center; }
+  .logo-wrapper { justify-content: center; }
+  .social-wrapper { justify-content: center; }
+  .bottom-bar { flex-direction: column; gap: 15px; }
+}
     </style>
   </head>
   <body>
-    <!-- SPIDER WEB CANVAS ANIMASIYASI 🕸 -->
     <canvas id="spiderWebCanvas"></canvas>
 
-    <!-- PULSUZ KONSULTASİYA MODAL PANƏLİ -->
     <div class="modal-overlay" id="consultationOverlay">
       <div class="consultation-modal">
         <button type="button" class="modal-close-btn" id="modalCloseBtn">
@@ -945,31 +1073,30 @@
           <h3 class="modal-title" style="color: #10b981">Uğurlu Əməliyyat!</h3>
           <p class="modal-subtitle" style="margin-bottom: 0">
             Konsultasiya sorğunuz qəbul edildi. 24 saat ərzində baş ekspertimiz
-            sizinlə əlaqə saxlayacaq.
+            sizinlə əlaqə saxlayaq.
           </p>
         </div>
       </div>
     </div>
 
-    <!-- RESPONSIVE NAVBAR -->
     <header id="mainNavbar">
       <div class="container nav-wrapper">
-        <a href="index.html" class="logo">BizPlan<span>.ai</span></a>
+        <a href="index.html" class="logo">BiznesPlan<span>.ai</span></a>
 
         <button class="menu-toggle" id="menuToggle">
           <span></span><span></span><span></span>
         </button>
 
-        <!-- İstədiyiniz Tam Düzgün Və Yenilənmiş Sıralama -->
         <ul class="nav-links" id="navLinks">
-          <li><a href="#features">Xidmətlər</a></li> 
-                    <li><a href="#stats">Göstəricilər</a></li>
+          <li><a href="#features">Xidmətlər</a></li>   <li><a href="#stats">Göstəricilər</a></li>
           <li><a href="#investor-portfolio">İnvestor Portfeli</a></li>
           <li><a href="#why-us">Niyə Biz?</a></li>
-         
+       
+          <li><a href="#contact">Əlaqə</a></li>
+          <div class="mobile-action-group" id="mobileActions"></div>
         </ul>
 
-        <div class="nav-buttons">
+        <div class="nav-buttons" id="desktopButtons">
           <button
             class="btn-nav-outline"
             onclick="window.location.href = 'login.html'"
@@ -983,10 +1110,8 @@
       </div>
     </header>
 
-    <!-- Hero Bölməsi (Typewriter Və Shimmer Effekti) -->
     <main>
       <div class="container">
-        <!-- Canlı olaraq hərflərlə doldurulan başlıq -->
         <h1 class="hero-title" id="typewriterTitle"></h1>
 
         <p class="hero-p">
@@ -997,13 +1122,11 @@
         </p>
 
         <div class="hero-btns">
-          <!-- BƏRPA OLUNAN LÜKS 3D DÜYMƏ -->
           <button class="btn-hero-main open-cons-btn">
             Pulsuz Konsultasiya Al <i class="fa-solid fa-headset"></i>
           </button>
         </div>
 
-        <!-- 3D IDARƏETMƏ PANELİ (DASHBOARD) MAKETİ -->
         <div class="dashboard-mockup-wrapper" id="features">
           <div class="dashboard-mockup">
             <div class="mockup-header">
@@ -1011,14 +1134,11 @@
               <div class="mockup-dot yellow"></div>
               <div class="mockup-dot green"></div>
               <div class="mockup-title-text">
-                <i class="fa-solid fa-lock"></i> app.bizplan.ai/dashboard
+                <i class="fa-solid fa-lock"></i> app.biznesplan.ai/dashboard
               </div>
             </div>
-
             <div class="mockup-body">
               <div class="neon-glow-line"></div>
-
-              <!-- Üst Maliyyə Kartları -->
               <div class="mockup-grid">
                 <div class="mockup-card">
                   <div class="mockup-card-title">Layihə Dəyəri (NPV)</div>
@@ -1037,13 +1157,11 @@
                   </div>
                 </div>
               </div>
-
-              <!-- Qrafik və AI jurnalları -->
               <div class="mockup-charts-area">
                 <div class="chart-main-box">
                   <div class="mockup-card-title">
                     <i class="fa-solid fa-chart-area"></i> 5 Aylıq Gəlir
-                    Proqnozu (Simulyasiya)
+                    Proqnozu
                   </div>
                   <div class="chart-sim-lines">
                     <div
@@ -1076,11 +1194,10 @@
                 <div class="ai-logs-box">
                   <div class="mockup-card-title" style="margin-bottom: 12px">
                     <i class="fa-solid fa-wand-magic-sparkles"></i> AI Analiz
-                    Jurnalı
                   </div>
-                  <div class="ai-log-item">Bazar riski: Aşağı təhlükə</div>
-                  <div class="ai-log-item">Mənfəət nöqtəsi hesablandı</div>
-                  <div class="ai-log-item">Pitch Deck hazır vəziyyətdə</div>
+                  <div class="ai-log-item">Bazar riski: Aşağı</div>
+                  <div class="ai-log-item">Mənfəət nöqtəsi tapıldı</div>
+                  <div class="ai-log-item">Pitch Deck hazırdır</div>
                 </div>
               </div>
             </div>
@@ -1089,31 +1206,29 @@
       </div>
     </main>
 
-    <!-- Statistika Bölməsi -->
     <section class="stats-section" id="stats">
       <div class="container">
         <div class="stats-grid">
           <div class="stat-card">
-            <div class="stat-num">150+</div>
+            <div class="stat-num" data-target="150">0</div>
             <div class="stat-label">Hazırlanmış Plan</div>
           </div>
           <div class="stat-card">
-            <div class="stat-num">$12M+</div>
-            <div class="stat-label">Cəlb Edilən İnvestisiya</div>
+            <div class="stat-num" data-target="12">0</div>
+            <div class="stat-label">Cəlb Edilən İnvestisiya ($M)</div>
           </div>
           <div class="stat-card">
-            <div class="stat-num">48<span>saat</span></div>
-            <div class="stat-label">Ortalama Təhvil</div>
+            <div class="stat-num" data-target="48">0</div>
+            <div class="stat-label">Ortalama Təhvil (Saat)</div>
           </div>
           <div class="stat-card">
-            <div class="stat-num">99%</div>
-            <div class="stat-label">Müştəri Məmnuniyyəti</div>
+            <div class="stat-num" data-target="99">0</div>
+            <div class="stat-label">Müştəri Məmnuniyyəti (%)</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- INVESTOR PORTFELI BÖLMƏSİ -->
     <section class="premium-section" id="investor-portfolio">
       <div class="container portfolio-container">
         <div class="portfolio-text">
@@ -1123,27 +1238,19 @@
           </h2>
           <p class="section-desc" style="text-align: left; margin: 0 0 30px 0">
             Biznesinizin maliyyə dəyərini investorlara düzgün izah etmək kapital
-            cəlb etməyin 90%-ni təşkil edir. Bizim hazırladığımız portfel
-            strukturu sizə üstünlük qazandırır:
+            cəlb etməyin 90%-ni təşkil edir.
           </p>
-
           <div class="list-item">
             <i class="fa-solid fa-circle-check"></i>
-            <span
-              >Professional Pitch Deck (İnvestor Təqdimatı) strukturunun
-              qurulması.</span
-            >
+            <span>Professional Pitch Deck strukturunun qurulması.</span>
           </div>
           <div class="list-item">
             <i class="fa-solid fa-circle-check"></i>
-            <span
-              >Risklərin idarə olunması və stress-test ssenarilərinin
-              hazırlanması.</span
-            >
+            <span>Risklərin idarə olunması və stress-test ssenariləri.</span>
           </div>
           <div class="list-item">
             <i class="fa-solid fa-circle-check"></i>
-            <span>Kapitalın (Equity) düzgün qiymətləndirilməsi mexanizmi.</span>
+            <span>Kapitalın düzgün qiymətləndirilməsi mexanizmi.</span>
           </div>
         </div>
         <div class="portfolio-visual">
@@ -1162,8 +1269,7 @@
               margin-bottom: 20px;
             "
           >
-            Platformamız tərəfindən optimallaşdırılmış layihələr beynəlxalq
-            vençur fondlarının və yerli mələk investorların daxili audit
+            Platformamız tərəfindən optimallaşdırılmış layihələr audit
             yoxlamalarından qüsursuz keçir.
           </p>
           <button class="btn-nav-primary open-cons-btn" style="width: 100%">
@@ -1173,24 +1279,21 @@
       </div>
     </section>
 
-    <!-- NİYƏ BİZ? (STRATEGİYA) -->
     <section class="premium-section" id="why-us">
       <div class="container">
         <span class="section-badge">Maksimal Effektivlik</span>
         <h2 class="section-title">Niyə BizPlan.ai Seçilməlidir?</h2>
         <p class="section-desc">
           Biz sadəcə sənəd hazırlamırıq, ideyanızın maliyyə arxitekturasını
-          qururuq və onun investorlar qarşısında ən yüksək dəyəri almasını təmin
-          edirik.
+          qururuq.
         </p>
-
         <div class="features-grid">
           <div class="feature-box">
             <div class="feature-icon"><i class="fa-solid fa-brain"></i></div>
             <h4>Dərin Analitika</h4>
             <p>
               Süni intellekt dəstəkli bazar analizi alətlərimiz ilə hədəf
-              kütlənizi və rəqiblərinizin zəif nöqtələrini dəqiqliklə tapırıq.
+              kütlənizi dəqiqliklə tapırıq.
             </p>
           </div>
           <div class="feature-box">
@@ -1199,9 +1302,8 @@
             </div>
             <h4>5 İllik Maliyyə Modeli</h4>
             <p>
-              Layihənizin gəlir-çıxış balansını, mənfəətlilik nöqtəsini
-              (Break-Even) və ROI göstəricilərini rəsmi standartlarla
-              hesablayırıq.
+              Layihənizin gəlir-çıxış balansını, mənfəətlilik nöqtəsini rəsmi
+              standartlarla hesablayırıq.
             </p>
           </div>
           <div class="feature-box">
@@ -1210,42 +1312,139 @@
             </div>
             <h4>Tam Hüquqi Uyğunluq</h4>
             <p>
-              Dövlət dəstəyi proqramları (KOBİA), yerli və xarici bankların
-              kredit standartlarına 100% uyğun format təqdim edirik.
+              Dövlət dəstəyi proqramları (KOBİA) və bankların kredit
+              standartlarına 100% uyğun format.
             </p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Lüks Footer -->
-    <footer>
-      <div class="container footer-content">
-        <div class="logo" style="font-size: 1.4rem">
-          BizPlan<span>.ai</span>
+ 
+<section class="premium-section" id="contact">
+  <div class="container">
+    <span class="section-badge">Bizimlə Əlaqə</span>
+    <h2 class="section-title">Bizə Sorğu Göndərin</h2>
+    
+    <div class="contact-grid">
+      <!-- Əlaqə Məlumatları -->
+      <div class="contact-info-card">
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+          <div class="contact-text">
+            <h5>Regional Ofisimiz (ADAU)</h5>
+            <p>Atatürk prospekti 262, Gəncə, Azərbaycan</p>
+          </div>
         </div>
-        <div class="footer-links">
-          <a href="#features">Xidmətlər</a>
-          <a href="#investor-portfolio">İnvestor Portfeli</a>
-          <a href="#why-us">Niyə Biz?</a>
-          <a href="#stats">Göstəricilər</a>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+          <div class="contact-text">
+            <h5>E-Poçt</h5>
+            <p>support@bizplan.ai</p>
+          </div>
         </div>
-        <p class="copyright">
-          &copy; 2026 BizPlan.ai. Bütün hüquqlar qorunur. Biznesinizi gələcəyə
-          daşıyın.
-        </p>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+          <div class="contact-text">
+            <h5>Dəstək Xətti</h5>
+            <p>+994 (50) 123-45-67</p>
+          </div>
+        </div>
       </div>
-    </footer>
 
-    <!-- Floating Actions -->
-    <div class="floating-container">
+      <!-- ADAU Xəritəsi (Qırmızı Pin ilə) -->
+    <!-- ADAU Qırmızı Pinli Xəritə -->
+<div class="map-wrapper" style="width: 100%; height: 350px; border-radius: 20px; overflow: hidden; border: 2px solid #e2e8f0;">
+
+  <iframe 
+    src="https://www.google.com/maps?q=Azerbaijan+State+Agricultural+University,Ganja&output=embed&hl=az" 
+    width="100%" 
+    height="100%" 
+    style="border:0;" 
+    allowfullscreen="" 
+    loading="lazy">
+  </iframe>
+</div>
+    </div>
+  </div>
+</section>
+
+<div id="pointingArrow" style="position: fixed; top: 70px; right: 260px; z-index: 1001; opacity: 0; pointer-events: none; transition: all 0.5s ease; transform: rotate(0deg);">
+  <i class="fa-solid fa-arrow-turn-up" style="font-size: 45px; color: #4f46e5; animation: bounce 1.5s infinite;"></i>
+</div>
+
+<style>
+  @keyframes bounce {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateY(15px); }
+  }
+</style>
+
+
+<footer style="background-color: #ffffff; padding: 80px 0 40px; border-top: 1px solid #e2e8f0; font-family: 'Plus Jakarta Sans', sans-serif;">
+  <div class="container footer-grid" style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; align-items: start;">
+    
+    <!-- 1. Logo və Şirkət -->
+    <div style="display: flex; flex-direction: column; align-items: flex-start;" class="footer-brand-col">
+      <div class="logo-wrapper" style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+        <img src="./img/logo.png" alt="BiznesPlan.ai" style="width: 50px; height: auto;">
+        <a href="index.html" style="font-size: 1.6rem; font-weight: 800; text-decoration: none; color: #0f172a;">BiznesPlan<span>.ai</span></a>
+      </div>
+      <p style="color: #64748b; font-size: 0.9rem; line-height: 1.7; margin-bottom: 25px;">Süni intellektin gücü ilə biznesinizi gələcəyə daşıyın.</p>
+      <div style="display: flex; gap: 20px;" class="social-wrapper">
+        <a href="https://wa.me/994501234567" class="footer-link" style="font-size: 1.4rem;"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="#" class="footer-link" style="font-size: 1.4rem;"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#" class="footer-link" style="font-size: 1.4rem;"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+    </div>
+
+    <!-- 2. Platforma -->
+    <div>
+      <h4 style="color: #0f172a; font-size: 0.9rem; font-weight: 800; text-transform: uppercase; margin-bottom: 20px;">Platforma</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin-bottom: 15px;"><a href="#features" class="footer-link">Xidmətlər</a></li>
+        <li style="margin-bottom: 15px;"><a href="#why-us" class="footer-link">Niyə Biz?</a></li>
+      </ul>
+    </div>
+
+    <!-- 3. Resurslar -->
+    <div>
+      <h4 style="color: #0f172a; font-size: 0.9rem; font-weight: 800; text-transform: uppercase; margin-bottom: 20px;">Resurslar</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin-bottom: 15px;"><a href="#investor-portfolio" class="footer-link">İnvestor Portfeli</a></li>
+        <li style="margin-bottom: 15px;"><a href="#stats" class="footer-link">Göstəricilər</a></li>
+      </ul>
+    </div>
+
+    <!-- 4. Əlaqə -->
+    <div>
+      <h4 style="color: #0f172a; font-size: 0.9rem; font-weight: 800; text-transform: uppercase; margin-bottom: 20px;">Əlaqə</h4>
+      <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 10px;">support@biznesplan.ai</p>
+      <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">+994 (50) 123-45-67</p>
+      <button onclick="window.location.href='#contact'" style="background: #0f172a; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">Bizə yazın</button>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="container bottom-bar" style="max-width: 1200px; margin: 60px auto 0; border-top: 1px solid #f1f5f9; padding-top: 30px; display: flex; justify-content: space-between; align-items: center;">
+    <p style="color: #94a3b8; font-size: 0.8rem;">© 2026 BiznesPlan.ai — Bütün hüquqlar qorunur.</p>
+    <div style="display: flex; gap: 20px;">
+      <a href="#" class="footer-link" style="font-size: 0.8rem;">Məxfilik</a>
+      <a href="#" class="footer-link" style="font-size: 0.8rem;">Şərtlər</a>
+    </div>
+  </div>
+</footer>
+
+
+    <div class="floating-container" id="floatContainer">
       <a
-        href="https://wa.me/994500000000"
+        href="https://wa.me/994501234567"
         target="_blank"
         class="float-btn btn-whatsapp"
         title="Bizimlə Əlaqə"
-        ><i class="fa-brands fa-whatsapp"></i
-      ></a>
+      >
+        <i class="fa-brands fa-whatsapp"></i>
+      </a>
       <button
         type="button"
         class="float-btn btn-scroll-top"
@@ -1257,7 +1456,29 @@
     </div>
 
     <script>
-      // 1. TYPEWRITER (YAZI MAKİNASI) VƏ SHIMMER ANIMASIYASI ✍️
+      // 1. MOBİL MENYU DÜYMƏLƏRİNİN APENDİKSİ
+      const desktopButtons = document.getElementById("desktopButtons");
+      const mobileActions = document.getElementById("mobileActions");
+      if (desktopButtons && mobileActions) {
+        mobileActions.innerHTML = desktopButtons.innerHTML;
+      }
+
+      // Hamburger Menyu Açılışı
+      const menuToggle = document.getElementById("menuToggle");
+      const navLinks = document.getElementById("navLinks");
+      menuToggle.addEventListener("click", () => {
+        menuToggle.classList.toggle("active");
+        navLinks.classList.toggle("active");
+      });
+
+      document.querySelectorAll(".nav-links a").forEach((link) => {
+        link.addEventListener("click", () => {
+          menuToggle.classList.remove("active");
+          navLinks.classList.remove("active");
+        });
+      });
+
+      // 2. TYPEWRITER (YAZI MAKİNASI) EFFEKTİ
       const words = ["İdeyanızı ", "İnvestisiya ", "Cəlb Edən Plana Çevirin."];
       const el = document.getElementById("typewriterTitle");
       let wordIdx = 0,
@@ -1267,18 +1488,14 @@
       function typeEffect() {
         if (wordIdx < words.length) {
           const fullWord = words[wordIdx];
-
           if (wordIdx === 1) {
-            // "İnvestisiya" sözünə infinite parlaq klası verilir
             currentText += `<span class="shimmer-text">${fullWord[charIdx]}</span>`;
           } else {
             currentText += fullWord[charIdx];
           }
-
           el.innerHTML =
             currentText + '<span class="typewriter-cursor">|</span>';
           charIdx++;
-
           if (charIdx < fullWord.length) {
             setTimeout(typeEffect, 90);
           } else {
@@ -1293,55 +1510,89 @@
       }
       setTimeout(typeEffect, 400);
 
-      // 2. NAVBAR SCROLL MƏNTİQİ
+      // 3. SCROLL REAKSİYALARI: NAVBAR VƏ ELEMENTLƏRİN SÜRÜŞMƏSİ
       const navbar = document.getElementById("mainNavbar");
+      const scrollTopBtn = document.getElementById("scrollTopBtn");
+      const floatContainer = document.getElementById("floatContainer");
+
       window.addEventListener("scroll", () => {
         if (window.scrollY > 50) {
           navbar.classList.add("scrolled");
         } else {
           navbar.classList.remove("scrolled");
         }
-      });
 
-      const menuToggle = document.getElementById("menuToggle");
-      const navLinks = document.getElementById("navLinks");
-      menuToggle.addEventListener("click", () => {
-        menuToggle.classList.toggle("active");
-        navLinks.classList.toggle("active");
-      });
-
-      // 3. SCROLL TO TOP DÜYMƏSİ
-      const scrollTopBtn = document.getElementById("scrollTopBtn");
-      window.addEventListener("scroll", () => {
         if (window.scrollY > 300) {
           scrollTopBtn.classList.add("show");
+          floatContainer.classList.add("scrolled-active");
         } else {
           scrollTopBtn.classList.remove("show");
+          floatContainer.classList.remove("scrolled-active");
         }
       });
+
       scrollTopBtn.addEventListener("click", () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
 
-      // 4. KONSULTASİYA MODAL FORM IDARƏETMƏSİ
+      // 4. SAYĞACLARIN CANLI ARTMASI (COUNTER ANIMATION)
+      const statsSection = document.getElementById("stats");
+      const statNums = document.querySelectorAll(".stat-num");
+      let animated = false;
+
+      function startCounters() {
+        statNums.forEach((num) => {
+          const target = +num.getAttribute("data-target");
+          let count = 0;
+          const speed = target / 40;
+
+          const updateCount = () => {
+            count += speed;
+            if (count < target) {
+              num.innerText =
+                Math.ceil(count) +
+                (target === 99 ? "%" : target === 12 ? "M+" : "+");
+              setTimeout(updateCount, 25);
+            } else {
+              num.innerText =
+                target + (target === 99 ? "%" : target === 12 ? "M+" : "+");
+            }
+          };
+          updateCount();
+        });
+      }
+
+      window.addEventListener("scroll", () => {
+        if (!animated && statsSection) {
+          const rect = statsSection.getBoundingClientRect();
+          if (rect.top < window.innerHeight && rect.bottom >= 0) {
+            startCounters();
+            animated = true;
+          }
+        }
+      });
+
+      // 5. MODAL KONSULTASİYA
       const modalOverlay = document.getElementById("consultationOverlay");
       const modalCloseBtn = document.getElementById("modalCloseBtn");
       const consultationForm = document.getElementById("consultationForm");
       const formContent = document.getElementById("formContent");
       const successContent = document.getElementById("successContent");
 
-      document.querySelectorAll(".open-cons-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
+      document.body.addEventListener("click", (e) => {
+        if (e.target && e.target.classList.contains("open-cons-btn")) {
           formContent.classList.remove("hidden");
           successContent.classList.remove("active");
           consultationForm.reset();
           modalOverlay.classList.add("active");
-        });
+          menuToggle.classList.remove("active");
+          navLinks.classList.remove("active");
+        }
       });
 
-      modalCloseBtn.addEventListener("click", () => {
-        modalOverlay.classList.remove("active");
-      });
+      modalCloseBtn.addEventListener("click", () =>
+        modalOverlay.classList.remove("active"),
+      );
       modalOverlay.addEventListener("click", (e) => {
         if (e.target === modalOverlay) modalOverlay.classList.remove("active");
       });
@@ -1355,7 +1606,7 @@
         }, 3500);
       });
 
-      // 5. INTERAKTIV SPIDER WEB ANIMASIYASI 🕸️
+      // 6. SPIDER WEB CANVAS
       const canvas = document.getElementById("spiderWebCanvas");
       const ctx = canvas.getContext("2d");
       let width = (canvas.width = window.innerWidth);
@@ -1450,7 +1701,20 @@
       }
       animateWeb();
     </script>
+<script>
+  window.addEventListener('scroll', () => {
+    const contactSection = document.getElementById('contact');
+    const arrow = document.getElementById('pointingArrow');
+    const rect = contactSection.getBoundingClientRect();
 
+    // Səhifə contact bölməsinə çatanda oxu göstər, yuxarı qalxanda gizlət
+    if (rect.top < window.innerHeight / 2 && rect.bottom > 100) {
+      arrow.style.opacity = '1';
+    } else {
+      arrow.style.opacity = '0';
+    }
+  });
+</script>
     <script type="module" src="js/main.js"></script>
   </body>
 </html>
